@@ -1,117 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@400;600;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Uber-style Core Palette */
+  --color-uber-bg: #000000;
+  --color-uber-bg-alt: #121212;
+  --color-uber-surface: #1C1C1E;
+  --color-uber-elevated: #2C2C2E;
+  --color-uber-border: rgba(255, 255, 255, 0.08);
+
+  /* Brand and Text */
+  --color-brand-primary: #c0c0c8;
+  --color-brand-glow: rgba(192, 192, 200, 0.1);
+  --color-brand-text: #FAF9F6;
+  --color-brand-text-muted: #79797A;
+
+  /* Semantic State Colors */
+  --color-danger: #ad0d17;
+  --color-streak: #FF6B35;
+  --color-warn: #F59E0B;
+
+  /* Typography */
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Oswald", sans-serif;
+  --font-mono: "Roboto Mono", monospace;
+}
 
 :root {
-  --bg-primary: #000000;
-  --bg-secondary: #0a0a0a;
-  --bg-card: #141416;
-  --text-primary: #FAF9F6;
-  --text-secondary: #E0E0F0;
-  --text-muted: #79797A;
-  --color-accent: #C0C0C8;
-  --color-accent-glow: rgba(192, 192, 200, 0.4);
-  --border-uber: rgba(255, 255, 255, 0.08);
+  --background: #000000;
+  --foreground: #E0E0F0;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-html, body {
-  background-color: var(--bg-primary);
-  /* Technical Grid Overlay */
-  background-image: 
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
-  height: 100vh;
-}
-
-/* Scroll Snap - ONE PAGE FEEL */
-.scroll-container {
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE and Edge */
-}
-
-.scroll-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-}
-
-.section-full {
-  height: 100vh;
-  width: 100%;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-}
-
-h1, h2, h3, .heading-font {
-  font-family: 'Outfit', sans-serif;
-  letter-spacing: -0.04em;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
   text-transform: uppercase;
+  letter-spacing: -0.02em;
 }
 
-.btn-primary {
-  background-color: var(--color-accent);
-  color: var(--bg-primary);
-  padding: 20px 48px;
-  border-radius: 2px;
-  font-weight: 800;
-  font-family: 'Outfit', sans-serif;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  letter-spacing: 0.1em;
-  position: relative;
-  z-index: 2;
+/* Custom scrollbar for premium feel */
+::-webkit-scrollbar {
+  width: 6px;
 }
 
-.btn-primary:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 40px var(--color-accent-glow);
+::-webkit-scrollbar-track {
+  background: var(--color-uber-bg);
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(15px);
-  border: 1px solid var(--border-uber);
-  padding: 50px;
-  border-radius: 4px;
-  position: relative;
-  overflow: hidden;
+::-webkit-scrollbar-thumb {
+  background: var(--color-uber-elevated);
+  border-radius: 10px;
 }
 
-.glass-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-}
-
-.uber-text-accent {
-  color: var(--color-accent);
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-in {
-  animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-primary);
 }
