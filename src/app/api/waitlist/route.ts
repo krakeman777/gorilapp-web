@@ -14,7 +14,18 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Email and reCAPTCHA are required" }, { status: 400 });
     }
 
+    if (!RECAPTCHA_SECRET) {
+      console.error("CRITICAL: RECAPTCHA_SECRET_KEY is not defined in environment variables.");
+      return NextResponse.json({ error: "Configuracion de seguridad incompleta" }, { status: 500 });
+    }
+
+    if (!db || Object.keys(db).length === 0) {
+      console.error("CRITICAL: Firebase DB not initialized. Check your Firebase environment variables.");
+      return NextResponse.json({ error: "Sincronizacion de datos fallida (Firebase)" }, { status: 500 });
+    }
+
     // 1. Verify reCAPTCHA token
+
     const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${RECAPTCHA_SECRET}&response=${recaptchaToken}`;
     const verifyResponse = await fetch(verifyUrl, { method: "POST" });
     const verifyData = await verifyResponse.json();
@@ -55,8 +66,16 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Waitlist API Error:", error);
-    return NextResponse.json({ error: "Error en el servidor" }, { status: 500 });
+    return NextResponse.json({ 
+      error: "Error en el servidor",
+      message: error?.message || "Algo salió mal",
+      configStatus: {
+        hasDb: !!db && Object.keys(db).length > 0,
+        hasRecaptcha: !!RECAPTCHA_SECRET
+      }
+    }, { status: 500 });
   }
 }
+
